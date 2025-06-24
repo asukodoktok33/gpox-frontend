@@ -1,334 +1,341 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aplikasi Gabungan</title>
-  <style>
-    /* Global Styles */
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #ffe4e1; /* Warna pink muda sebagai latar belakang utama */
-      color: #333;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aplikasi Gabungan</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #ffe4e1;
+      color: #333;
+    }
 
-    .app-section {
-      background-color: #fff0f5; /* Warna pink sedikit lebih gelap untuk kotak aplikasi */
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 500px; /* Batasi lebar container */
-      width: 90%; /* Responsif */
-      margin-bottom: 2rem; /* Jarak antar dua aplikasi */
-    }
+    .app-section {
+      background-color: #fff0f5;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      margin-bottom: 2rem;
+    }
 
-    h1, h2 {
-      color: #ff69b4; /* Pink cerah */
-      margin-bottom: 20px;
-    }
+    h1, h2 {
+      color: #ff69b4;
+      margin-bottom: 20px;
+    }
 
-    .input-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: bold;
-    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: bold;
+    }
 
-    input[type="text"],
-    input[type="url"],
-    textarea {
-      width: calc(100% - 22px); /* Mengurangi padding dan border */
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-      margin-bottom: 5px;
-      font-size: 1rem; /* Menyamakan ukuran font */
-    }
+    input[type="text"],
+    input[type="url"],
+    textarea {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }
 
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-      justify-content: center;
-    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
 
-    .checkbox-group input[type="checkbox"] {
-      margin-right: 10px;
-      width: auto;
-    }
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 10px;
+      width: auto;
+    }
 
-    .checkbox-group label {
-      margin-bottom: 0;
-    }
+    .checkbox-group label {
+      margin-bottom: 0;
+    }
 
-    button {
-      background-color: #ff69b4; /* Pink cerah */
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-      width: auto; /* Untuk tombol agar tidak 100% lebar */
-    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+      width: auto;
+    }
 
-    button:hover {
-      background-color: #ff1493; /* Pink lebih gelap saat hover */
-    }
+    button:hover {
+      background-color: #ff1493;
+    }
 
-    .result-display { /* Digunakan untuk resultContainer dan #result */
-      margin-top: 25px;
-      border-top: 1px solid #eee;
-      padding-top: 20px;
-      background-color: #f8f8f8;
-      border-radius: 5px;
-      padding: 10px;
-      margin-top: 15px;
-    }
+    .result-display {
+      margin-top: 25px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 15px;
+    }
 
-    .result-link-input { /* Untuk input hasil link */
-      width: calc(100% - 22px);
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #f8f8f8;
-      cursor: text; /* Ubah cursor menjadi text untuk input readonly */
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 10px;
-    }
+    .result-link-input {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      cursor: text;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+    }
 
-    .notification {
-      margin-top: 15px;
-      color: green;
-      font-weight: bold;
-      display: none;
-    }
+    .notification {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+      display: none;
+    }
 
-    .error-message {
-      color: red;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+    .error-message {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+      display: none;
+    }
 
-    /* Specific styles for Shortlink OG Generator */
-    #shortlinkResult { /* Mengubah ID dari #result untuk menghindari konflik */
-      padding: 1rem;
-      background: #ffe4ec;
-      border-radius: 0.5rem;
-      word-break: break-all;
-      margin-top: 1rem;
-    }
+    #shortlinkResult {
+      padding: 1rem;
+      background: #ffe4ec;
+      border-radius: 0.5rem;
+      word-break: break-word;
+      margin-top: 1rem;
+    }
 
-    .copy-button {
-      margin-top: 0.5rem;
-      background: #ff69b4;
-    }
-  </style>
+    .copy-button {
+      margin-top: 0.5rem;
+      background: #ff69b4;
+    }
+  </style>
 </head>
 <body>
-  <div class="app-section">
-    <h2>Ubah Ukuran Gambar Cloudinary</h2>
-    <div class="input-group">
-      <label for="baseLink">Masukkan Link Gambar Dasar Cloudinary Anda:</label>
-      <input type="text" id="baseLink" placeholder="Contoh: https://res.cloudinary.com/...">
-    </div>
-    <div class="input-group">
-      <label for="buttonLink">Masukkan Link Gambar Tombol Cloudinary Anda:</label>
-      <input type="text" id="buttonLink" placeholder="Contoh: https://res.cloudinary.com/...">
-    </div>
-    <div class="checkbox-group">
-      <input type="checkbox" id="addOverlay" checked>
-      <label for="addOverlay">Tambahkan Gambar Tombol (Overlay)</label>
-    </div>
-    <button onclick="generateCloudinaryLink()">Ubah Ukuran & Salin</button>
-    <div id="cloudinaryErrorMessage" class="error-message" style="display:none;"></div>
-    <div id="cloudinaryResultContainer" class="result-display" style="display:none;">
-      <label for="cloudinaryResultLink">Link Hasil Transformasi:</label>
-      <input type="text" id="cloudinaryResultLink" class="result-link-input" readonly>
-      <button id="copyCloudinaryButton" onclick="copyCloudinaryResult()">Salin Link</button>
-      <div id="cloudinaryNotification" class="notification">Link berhasil disalin!</div>
-    </div>
-  </div>
+  <div class="app-section">
+    <h2>Ubah Ukuran Gambar Cloudinary</h2>
+    <div class="input-group">
+      <label for="baseLink">Masukkan Link Gambar Dasar Cloudinary Anda:</label>
+      <input type="text" id="baseLink" placeholder="Contoh: https://res.cloudinary.com/...">
+    </div>
+    <div class="input-group">
+      <label for="buttonLink">Masukkan Link Gambar Tombol Cloudinary Anda:</label>
+      <input type="text" id="buttonLink" placeholder="Contoh: https://res.cloudinary.com/...">
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" id="addOverlay" checked>
+      <label for="addOverlay">Tambahkan Gambar Tombol (Overlay)</label>
+    </div>
+    <button onclick="generateCloudinaryLink()">Ubah Ukuran & Salin</button>
+    <div id="cloudinaryErrorMessage" class="error-message"></div>
+    <div id="cloudinaryResultContainer" class="result-display" style="display:none;">
+      <label for="cloudinaryResultLink">Link Hasil Transformasi:</label>
+      <input type="text" id="cloudinaryResultLink" class="result-link-input" readonly>
+      <button id="copyCloudinaryButton" onclick="copyCloudinaryResult()">Salin Link</button>
+      <div id="cloudinaryNotification" class="notification">Link berhasil disalin!</div>
+    </div>
+  </div>
 
-  <div class="app-section">
-    <h1>Shortlink OG Generator</h1>
-    <form id="ogForm">
-      <input type="text" name="title" value="Free To Watch" required />
-      <input type="text" name="desc" value="1.472.312 Views" required />
-      <input type="url" name="imageUrl" placeholder="URL Gambar (ImageKit)" required />
-      <input type="url" name="redirectUrl" value="https://go-v2.twrdfr.xyz/" required />
-      <button type="submit">Buat Link</button>
-    </form>
-    <div id="shortlinkResult" style="display:none">
-      <p><strong>Link Hasil:</strong></p>
-      <p id="shortlinkText"></p>
-      <button class="copy-button" onclick="copyShortlink()">Copy</button>
-    </div>
-  </div>
+  <div class="app-section">
+    <h1>Shortlink OG Generator</h1>
+    <form id="ogForm">
+      <input type="text" name="title" value="Free To Watch" required />
+      <input type="text" name="desc" value="1.472.312 Views" required />
+      <input type="url" name="imageUrl" placeholder="URL Gambar (ImageKit)" required />
+      <input type="url" name="redirectUrl" value="https://go-v2.twrdfr.xyz/" required />
+      <button type="submit">Buat Link</button>
+    </form>
+    <div id="shortlinkResult" style="display:none">
+      <p><strong>Link Hasil:</strong></p>
+      <p id="shortlinkText"></p>
+      <button class="copy-button" onclick="copyShortlink()">Copy</button>
+    </div>
+    <div id="shortlinkError" class="error-message"></div>
+  </div>
 
-  <script>
-    // --- JavaScript for Cloudinary Image Resizer ---
-    function showCloudinaryNotification(message, isError = false) {
-      const notificationDiv = document.getElementById('cloudinaryNotification');
-      const errorDiv = document.getElementById('cloudinaryErrorMessage');
-      if (isError) {
-        notificationDiv.style.display = 'none';
-        errorDiv.textContent = message;
-        errorDiv.style.display = 'block';
-      } else {
-        errorDiv.style.display = 'none';
-        notificationDiv.textContent = message;
-        notificationDiv.style.color = 'green';
-        notificationDiv.style.display = 'block';
-        setTimeout(() => { notificationDiv.style.display = 'none'; }, 3000);
-      }
-    }
+  <script>
+    function showCloudinaryNotification(message, isError = false) {
+      const notificationDiv = document.getElementById('cloudinaryNotification');
+      const errorDiv = document.getElementById('cloudinaryErrorMessage');
+      if (isError) {
+        notificationDiv.style.display = 'none';
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+      } else {
+        errorDiv.style.display = 'none';
+        notificationDiv.textContent = message;
+        notificationDiv.style.display = 'block';
+        setTimeout(() => { notificationDiv.style.display = 'none'; }, 3000);
+      }
+    }
 
-    function generateCloudinaryLink() {
-      const baseLink = document.getElementById('baseLink').value.trim();
-      const buttonLink = document.getElementById('buttonLink').value.trim();
-      const addOverlay = document.getElementById('addOverlay').checked;
+    function generateCloudinaryLink() {
+      const baseLink = document.getElementById('baseLink').value.trim();
+      const buttonLink = document.getElementById('buttonLink').value.trim();
+      const addOverlay = document.getElementById('addOverlay').checked;
 
-      document.getElementById('cloudinaryErrorMessage').style.display = 'none';
-      document.getElementById('cloudinaryNotification').style.display = 'none';
+      document.getElementById('cloudinaryErrorMessage').style.display = 'none';
+      document.getElementById('cloudinaryNotification').style.display = 'none';
 
-      if (!baseLink) {
-        showCloudinaryNotification('Mohon masukkan link gambar dasar!', true);
-        return;
-      }
+      if (!baseLink) {
+        showCloudinaryNotification('Mohon masukkan link gambar dasar!', true);
+        return;
+      }
 
-      const baseUrlMatch = baseLink.match(/(https:\/\/res\.cloudinary\.com\/[^\/]+\/image\/upload\/)/);
-      let baseUrlPrefix = '';
-      let baseImagePath = '';
+      const baseUrlMatch = baseLink.match(/(https:\/\/res\.cloudinary\.com\/[^\/]+\/image\/upload\/)/);
+      let baseUrlPrefix = '';
+      let baseImagePath = '';
 
-      if (baseUrlMatch && baseUrlMatch[1]) {
-          baseUrlPrefix = baseUrlMatch[1];
-          baseImagePath = baseLink.substring(baseUrlPrefix.length);
-      } else {
-          showCloudinaryNotification('Format link dasar Cloudinary tidak valid atau tidak dapat menemukan URL dasar.', true);
-          return;
-      }
+      if (baseUrlMatch && baseUrlMatch[1]) {
+        baseUrlPrefix = baseUrlMatch[1];
+        baseImagePath = baseLink.substring(baseUrlPrefix.length);
+      } else {
+        showCloudinaryNotification('Format link dasar Cloudinary tidak valid atau tidak dapat menemukan URL dasar.', true);
+        return;
+      }
 
-      let transformationPart = 'e_blur:400,f_auto,q_auto,c_scale,h_275,w_572/';
-      let finalLink = '';
+      let transformationPart = 'e_blur:400,f_auto,q_auto,c_scale,h_275,w_572/';
+      let finalLink = '';
 
-      if (addOverlay) {
-          if (!buttonLink) {
-              showCloudinaryNotification('Mohon masukkan link gambar tombol jika ingin menambahkan overlay!', true);
-              return;
-          }
+      if (addOverlay) {
+        if (!buttonLink) {
+          showCloudinaryNotification('Mohon masukkan link gambar tombol jika ingin menambahkan overlay!', true);
+          return;
+        }
 
-          const buttonPublicIdMatch = buttonLink.match(/image\/upload\/(?:v\d+\/)?(.*?)(?:\.\w+)?$/);
-          let buttonPublicId = '';
+        const buttonPublicIdMatch = buttonLink.match(/image\/upload\/(?:v\d+\/)?(.*?)(?:\.\w+)?$/);
+        let buttonPublicId = '';
 
-          if (buttonPublicIdMatch && buttonPublicIdMatch[1]) {
-              buttonPublicId = buttonPublicIdMatch[1].split('.')[0];
-          } else {
-              showCloudinaryNotification('Format link tombol Cloudinary tidak valid atau tidak dapat mengekstrak Public ID.', true);
-              return;
-          }
+        if (buttonPublicIdMatch && buttonPublicIdMatch[1]) {
+          buttonPublicId = buttonPublicIdMatch[1].split('.')[0];
+        } else {
+          showCloudinaryNotification('Format link tombol Cloudinary tidak valid atau tidak dapat mengekstrak Public ID.', true);
+          return;
+        }
 
-          transformationPart += `l_image:${buttonPublicId},g_center,h_84,w_84/`;
-      }
+        transformationPart += `l_image:${buttonPublicId},g_center,h_84,w_84/`;
+      }
 
-      finalLink = `${baseUrlPrefix}${transformationPart}${baseImagePath}`;
+      finalLink = `${baseUrlPrefix}${transformationPart}${baseImagePath}`;
 
-      document.getElementById('cloudinaryResultLink').value = finalLink;
-      document.getElementById('cloudinaryResultContainer').style.display = 'block';
+      document.getElementById('cloudinaryResultLink').value = finalLink;
+      document.getElementById('cloudinaryResultContainer').style.display = 'block';
 
-      copyCloudinaryResult(true);
-    }
+      copyCloudinaryResult(true);
+    }
 
-    function copyCloudinaryResult(isFromGenerate = false) {
-      const resultLink = document.getElementById('cloudinaryResultLink');
-      const copyButton = document.getElementById('copyCloudinaryButton');
-      resultLink.select();
-      resultLink.setSelectionRange(0, 99999);
+    function copyCloudinaryResult(isFromGenerate = false) {
+      const resultLink = document.getElementById('cloudinaryResultLink');
+      const copyButton = document.getElementById('copyCloudinaryButton');
+      resultLink.select();
+      resultLink.setSelectionRange(0, 99999);
 
-      try {
-        document.execCommand('copy');
-        if (!isFromGenerate) {
-          showCloudinaryNotification('Link berhasil disalin!', false);
-        }
-        copyButton.textContent = 'Tersalin!';
-        copyButton.style.backgroundColor = '#28a745';
-        setTimeout(() => {
-          copyButton.textContent = 'Salin Link';
-          copyButton.style.backgroundColor = '#ff69b4';
-        }, 2000);
-      } catch (err) {
-        console.error('Gagal menyalin link:', err);
-        showCloudinaryNotification('Gagal menyalin link. Silakan salin manual.', true);
-        copyButton.textContent = 'Gagal Salin!';
-        copyButton.style.backgroundColor = '#dc3545';
-        setTimeout(() => {
-          copyButton.textContent = 'Salin Link';
-          copyButton.style.backgroundColor = '#ff69b4';
-        }, 2000);
-      }
-    }
+      try {
+        document.execCommand('copy');
+        if (!isFromGenerate) {
+          showCloudinaryNotification('Link berhasil disalin!', false);
+        }
+        copyButton.textContent = 'Tersalin!';
+        copyButton.style.backgroundColor = '#28a745';
+        setTimeout(() => {
+          copyButton.textContent = 'Salin Link';
+          copyButton.style.backgroundColor = '#ff69b4';
+        }, 2000);
+      } catch (err) {
+        showCloudinaryNotification('Gagal menyalin link. Silakan salin manual.', true);
+        copyButton.textContent = 'Gagal Salin!';
+        copyButton.style.backgroundColor = '#dc3545';
+        setTimeout(() => {
+          copyButton.textContent = 'Salin Link';
+          copyButton.style.backgroundColor = '#ff69b4';
+        }, 2000);
+      }
+    }
 
-    // --- JavaScript for Shortlink OG Generator ---
-    const ogForm = document.getElementById('ogForm');
-    const shortlinkResultDiv = document.getElementById('shortlinkResult');
-    const shortlinkText = document.getElementById('shortlinkText');
+    const ogForm = document.getElementById('ogForm');
+    const shortlinkResultDiv = document.getElementById('shortlinkResult');
+    const shortlinkText = document.getElementById('shortlinkText');
 
-    ogForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const slug1 = Math.random().toString(36).substring(2, 8); // random_slug_1
-      const slug2 = Math.random().toString(36).substring(2, 8); // random_slug_2
+    ogForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const slug1 = Math.random().toString(36).substring(2, 8);
+      const slug2 = Math.random().toString(36).substring(2, 8);
 
-      const formData = new FormData(ogForm);
-      const payload = {
-        slug1,
-        slug2,
-        title: formData.get('title'),
-        desc: formData.get('desc'),
-        imageUrl: formData.get('imageUrl'),
-        redirect: formData.get('redirectUrl') // 'redirectUrl' from input name, 'redirect' for Worker payload
-      };
+      const formData = new FormData(ogForm);
+      const payload = {
+        slug1,
+        slug2,
+        title: formData.get('title'),
+        desc: formData.get('desc'),
+        imageUrl: formData.get('imageUrl'),
+        redirect: formData.get('redirectUrl')
+      };
 
-      const res = await fetch('https://api.gpox.xyz/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      const errorBox = document.getElementById('shortlinkError');
+      errorBox.style.display = 'none';
+      shortlinkResultDiv.style.display = 'none';
 
-      if (res.ok) {
-        const link = `https://${slug1}.gpox.xyz/${slug2}`;
-        shortlinkText.textContent = link;
-        shortlinkResultDiv.style.display = 'block';
-      } else {
-        // Perbaikan: tampilkan pesan error dari API jika ada
-        try { // Try to parse error response if it's JSON
-          const errorData = await res.json();
-          alert('Gagal membuat shortlink: ' + (errorData.error || res.statusText));
-        } catch (e) { // Fallback if error response is not JSON
-          alert('Gagal membuat shortlink: ' + res.statusText + ' (' + res.status + ')');
-        }
-      }
-    };
+      try {
+        const res = await fetch('https://api.gpox.xyz/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-    function copyShortlink() {
-      const text = shortlinkText.textContent;
-      navigator.clipboard.writeText(text);
-    }
-  </script>
+        if (res.ok) {
+          const link = `https://${slug1}.gpox.xyz/${slug2}`;
+          shortlinkText.textContent = link;
+          shortlinkResultDiv.style.display = 'block';
+        } else {
+          try {
+            const err = await res.json();
+            errorBox.textContent = 'Gagal membuat shortlink: ' + (err.error || res.statusText);
+          } catch {
+            errorBox.textContent = `Gagal membuat shortlink: ${res.statusText} (${res.status})`;
+          }
+          errorBox.style.display = 'block';
+        }
+      } catch {
+        errorBox.textContent = 'Terjadi kesalahan jaringan.';
+        errorBox.style.display = 'block';
+      }
+    };
+
+    function copyShortlink() {
+      const text = shortlinkText.textContent;
+      navigator.clipboard.writeText(text);
+    }
+  </script>
 </body>
 </html>
