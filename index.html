@@ -311,14 +311,14 @@
         redirectUrl: formData.get('redirectUrl')
       };
 
-      const res = await fetch('https://redr.twrdfr.xyz/v2/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+const res = await fetch('https://api.gpox.xyz/create', { // <-- INI YANG DIGANTI
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+});
 
       if (res.ok) {
-        const link = `https://redr.twrdfr.xyz/v2/${slug}`;
+        const link = `https://${slug}.gpox.xyz`; // <-- INI YANG DIGANTI untuk subdomain acak
         shortlinkText.textContent = link;
         shortlinkResultDiv.style.display = 'block';
       } else {
