@@ -300,31 +300,34 @@
     const shortlinkText = document.getElementById('shortlinkText');
 
     ogForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const slug = Math.random().toString(36).substring(2, 8);
-      const formData = new FormData(ogForm);
-      const payload = {
-        slug,
-        title: formData.get('title'),
-        desc: formData.get('desc'),
-        imageUrl: formData.get('imageUrl'),
-        redirectUrl: formData.get('redirectUrl')
-      };
+  e.preventDefault();
+  const slug = Math.random().toString(36).substring(2, 8); // random_slug_1
+  const pathSlug = Math.random().toString(36).substring(2, 8); // random_slug_2
 
-const res = await fetch('https://api.gpox.xyz/create', { // <-- INI YANG DIGANTI
+  const formData = new FormData(ogForm);
+  const payload = {
+    slug,
+    pathSlug, // Tambahkan pathSlug ke payload
+    title: formData.get('title'),
+    desc: formData.get('desc'),
+    imageUrl: formData.get('imageUrl'),
+    redirectUrl: formData.get('redirectUrl')
+  };
+
+  const res = await fetch('https://api.gpox.xyz/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-});
+  });
 
-      if (res.ok) {
-        const link = `https://${slug}.gpox.xyz`; // <-- INI YANG DIGANTI untuk subdomain acak
-        shortlinkText.textContent = link;
-        shortlinkResultDiv.style.display = 'block';
-      } else {
-        alert('Gagal membuat shortlink.');
-      }
-    };
+  if (res.ok) {
+    const link = `https://<span class="math-inline">\{slug\}\.gpox\.xyz/</span>{pathSlug}`; // <-- URL FORMAT BARU DI SINI
+    shortlinkText.textContent = link;
+    shortlinkResultDiv.style.display = 'block';
+  } else {
+    alert('Gagal membuat shortlink.');
+  }
+};
 
     function copyShortlink() {
       const text = shortlinkText.textContent;
