@@ -247,7 +247,7 @@
           transformationPart += `l_image:${buttonPublicId},g_center,h_84,w_84/`;
       }
 
-      finalLink = `<span class="math-inline">\{baseUrlPrefix\}</span>{transformationPart}${baseImagePath}`;
+      finalLink = `${baseUrlPrefix}${transformationPart}${baseImagePath}`;
 
       document.getElementById('cloudinaryResultLink').value = finalLink;
       document.getElementById('cloudinaryResultContainer').style.display = 'block';
@@ -311,13 +311,17 @@
       });
 
       if (res.ok) {
-        const link = `https://<span class="math-inline">\{slug1\}\.gpox\.xyz/</span>{slug2}`;
+        const link = `https://${slug1}.gpox.xyz/${slug2}`;
         shortlinkText.textContent = link;
         shortlinkResultDiv.style.display = 'block';
       } else {
         // Perbaikan: tampilkan pesan error dari API jika ada
-        const errorData = await res.json();
-        alert('Gagal membuat shortlink: ' + (errorData.error || res.statusText));
+        try { // Try to parse error response if it's JSON
+          const errorData = await res.json();
+          alert('Gagal membuat shortlink: ' + (errorData.error || res.statusText));
+        } catch (e) { // Fallback if error response is not JSON
+          alert('Gagal membuat shortlink: ' + res.statusText + ' (' + res.status + ')');
+        }
       }
     };
 
