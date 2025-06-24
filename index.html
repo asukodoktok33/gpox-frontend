@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aplikasi Gabungan</title>
   <style>
+    /* Global Styles */
     body {
       font-family: sans-serif;
       margin: 0;
@@ -12,59 +13,68 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: #ffe4e1;
+      background-color: #ffe4e1; /* Warna pink muda sebagai latar belakang utama */
       color: #333;
     }
+
     .app-section {
-      background-color: #fff0f5;
+      background-color: #fff0f5; /* Warna pink sedikit lebih gelap untuk kotak aplikasi */
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
-      max-width: 500px;
-      width: 90%;
-      margin-bottom: 2rem;
+      max-width: 500px; /* Batasi lebar container */
+      width: 90%; /* Responsif */
+      margin-bottom: 2rem; /* Jarak antar dua aplikasi */
     }
+
     h1, h2 {
-      color: #ff69b4;
+      color: #ff69b4; /* Pink cerah */
       margin-bottom: 20px;
     }
+
     .input-group {
       margin-bottom: 20px;
       text-align: left;
     }
+
     label {
       display: block;
       margin-bottom: 8px;
       color: #333;
       font-weight: bold;
     }
+
     input[type="text"],
     input[type="url"],
     textarea {
-      width: calc(100% - 22px);
+      width: calc(100% - 22px); /* Mengurangi padding dan border */
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
       box-sizing: border-box;
       margin-bottom: 5px;
-      font-size: 1rem;
+      font-size: 1rem; /* Menyamakan ukuran font */
     }
+
     .checkbox-group {
       display: flex;
       align-items: center;
       margin-bottom: 15px;
       justify-content: center;
     }
+
     .checkbox-group input[type="checkbox"] {
       margin-right: 10px;
       width: auto;
     }
+
     .checkbox-group label {
       margin-bottom: 0;
     }
+
     button {
-      background-color: #ff69b4;
+      background-color: #ff69b4; /* Pink cerah */
       color: white;
       padding: 12px 25px;
       border: none;
@@ -73,12 +83,14 @@
       font-size: 16px;
       transition: background-color 0.3s ease;
       margin-top: 10px;
-      width: auto;
+      width: auto; /* Untuk tombol agar tidak 100% lebar */
     }
+
     button:hover {
-      background-color: #ff1493;
+      background-color: #ff1493; /* Pink lebih gelap saat hover */
     }
-    .result-display {
+
+    .result-display { /* Digunakan untuk resultContainer dan #result */
       margin-top: 25px;
       border-top: 1px solid #eee;
       padding-top: 20px;
@@ -87,36 +99,42 @@
       padding: 10px;
       margin-top: 15px;
     }
-    .result-link-input {
+
+    .result-link-input { /* Untuk input hasil link */
       width: calc(100% - 22px);
       padding: 10px;
       border: 1px solid #ddd;
       border-radius: 5px;
       background-color: #f8f8f8;
-      cursor: text;
+      cursor: text; /* Ubah cursor menjadi text untuk input readonly */
       text-align: center;
       font-size: 14px;
       color: #555;
       margin-bottom: 10px;
     }
+
     .notification {
       margin-top: 15px;
       color: green;
       font-weight: bold;
       display: none;
     }
+
     .error-message {
       color: red;
       font-weight: bold;
       margin-top: 10px;
     }
-    #shortlinkResult {
+
+    /* Specific styles for Shortlink OG Generator */
+    #shortlinkResult { /* Mengubah ID dari #result untuk menghindari konflik */
       padding: 1rem;
       background: #ffe4ec;
       border-radius: 0.5rem;
       word-break: break-all;
       margin-top: 1rem;
     }
+
     .copy-button {
       margin-top: 0.5rem;
       background: #ff69b4;
@@ -165,6 +183,7 @@
   </div>
 
   <script>
+    // --- JavaScript for Cloudinary Image Resizer ---
     function showCloudinaryNotification(message, isError = false) {
       const notificationDiv = document.getElementById('cloudinaryNotification');
       const errorDiv = document.getElementById('cloudinaryErrorMessage');
@@ -180,53 +199,68 @@
         setTimeout(() => { notificationDiv.style.display = 'none'; }, 3000);
       }
     }
+
     function generateCloudinaryLink() {
       const baseLink = document.getElementById('baseLink').value.trim();
       const buttonLink = document.getElementById('buttonLink').value.trim();
       const addOverlay = document.getElementById('addOverlay').checked;
+
       document.getElementById('cloudinaryErrorMessage').style.display = 'none';
       document.getElementById('cloudinaryNotification').style.display = 'none';
+
       if (!baseLink) {
         showCloudinaryNotification('Mohon masukkan link gambar dasar!', true);
         return;
       }
+
       const baseUrlMatch = baseLink.match(/(https:\/\/res\.cloudinary\.com\/[^\/]+\/image\/upload\/)/);
       let baseUrlPrefix = '';
       let baseImagePath = '';
+
       if (baseUrlMatch && baseUrlMatch[1]) {
-        baseUrlPrefix = baseUrlMatch[1];
-        baseImagePath = baseLink.substring(baseUrlPrefix.length);
+          baseUrlPrefix = baseUrlMatch[1];
+          baseImagePath = baseLink.substring(baseUrlPrefix.length);
       } else {
-        showCloudinaryNotification('Format link dasar Cloudinary tidak valid.', true);
-        return;
+          showCloudinaryNotification('Format link dasar Cloudinary tidak valid atau tidak dapat menemukan URL dasar.', true);
+          return;
       }
+
       let transformationPart = 'e_blur:400,f_auto,q_auto,c_scale,h_275,w_572/';
       let finalLink = '';
+
       if (addOverlay) {
-        if (!buttonLink) {
-          showCloudinaryNotification('Mohon masukkan link gambar tombol.', true);
-          return;
-        }
-        const buttonPublicIdMatch = buttonLink.match(/image\/upload\/(?:v\d+\/)?(.*?)(?:\.\w+)?$/);
-        let buttonPublicId = '';
-        if (buttonPublicIdMatch && buttonPublicIdMatch[1]) {
-          buttonPublicId = buttonPublicIdMatch[1].split('.')[0];
-        } else {
-          showCloudinaryNotification('Format link tombol tidak valid.', true);
-          return;
-        }
-        transformationPart += `l_image:${buttonPublicId},g_center,h_84,w_84/`;
+          if (!buttonLink) {
+              showCloudinaryNotification('Mohon masukkan link gambar tombol jika ingin menambahkan overlay!', true);
+              return;
+          }
+
+          const buttonPublicIdMatch = buttonLink.match(/image\/upload\/(?:v\d+\/)?(.*?)(?:\.\w+)?$/);
+          let buttonPublicId = '';
+
+          if (buttonPublicIdMatch && buttonPublicIdMatch[1]) {
+              buttonPublicId = buttonPublicIdMatch[1].split('.')[0];
+          } else {
+              showCloudinaryNotification('Format link tombol Cloudinary tidak valid atau tidak dapat mengekstrak Public ID.', true);
+              return;
+          }
+
+          transformationPart += `l_image:${buttonPublicId},g_center,h_84,w_84/`;
       }
-      finalLink = `${baseUrlPrefix}${transformationPart}${baseImagePath}`;
+
+      finalLink = `<span class="math-inline">\{baseUrlPrefix\}</span>{transformationPart}${baseImagePath}`;
+
       document.getElementById('cloudinaryResultLink').value = finalLink;
       document.getElementById('cloudinaryResultContainer').style.display = 'block';
+
       copyCloudinaryResult(true);
     }
+
     function copyCloudinaryResult(isFromGenerate = false) {
       const resultLink = document.getElementById('cloudinaryResultLink');
       const copyButton = document.getElementById('copyCloudinaryButton');
       resultLink.select();
       resultLink.setSelectionRange(0, 99999);
+
       try {
         document.execCommand('copy');
         if (!isFromGenerate) {
@@ -240,7 +274,7 @@
         }, 2000);
       } catch (err) {
         console.error('Gagal menyalin link:', err);
-        showCloudinaryNotification('Gagal menyalin link.', true);
+        showCloudinaryNotification('Gagal menyalin link. Silakan salin manual.', true);
         copyButton.textContent = 'Gagal Salin!';
         copyButton.style.backgroundColor = '#dc3545';
         setTimeout(() => {
@@ -249,13 +283,17 @@
         }, 2000);
       }
     }
+
+    // --- JavaScript for Shortlink OG Generator ---
     const ogForm = document.getElementById('ogForm');
     const shortlinkResultDiv = document.getElementById('shortlinkResult');
     const shortlinkText = document.getElementById('shortlinkText');
+
     ogForm.onsubmit = async (e) => {
       e.preventDefault();
-      const slug1 = Math.random().toString(36).substring(2, 8);
-      const slug2 = Math.random().toString(36).substring(2, 8);
+      const slug1 = Math.random().toString(36).substring(2, 8); // random_slug_1
+      const slug2 = Math.random().toString(36).substring(2, 8); // random_slug_2
+
       const formData = new FormData(ogForm);
       const payload = {
         slug1,
@@ -265,13 +303,15 @@
         imageUrl: formData.get('imageUrl'),
         redirect: formData.get('redirectUrl') // 'redirectUrl' from input name, 'redirect' for Worker payload
       };
+
       const res = await fetch('https://api.gpox.xyz/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+
       if (res.ok) {
-        const link = `https://${slug1}.gpox.xyz/${slug2}`;
+        const link = `https://<span class="math-inline">\{slug1\}\.gpox\.xyz/</span>{slug2}`;
         shortlinkText.textContent = link;
         shortlinkResultDiv.style.display = 'block';
       } else {
@@ -280,6 +320,7 @@
         alert('Gagal membuat shortlink: ' + (errorData.error || res.statusText));
       }
     };
+
     function copyShortlink() {
       const text = shortlinkText.textContent;
       navigator.clipboard.writeText(text);
